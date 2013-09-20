@@ -7,6 +7,7 @@ require '../lib/answer'
 require '../lib/user'
 require '../lib/responder'
 require '../lib/response'
+require '../lib/selection'
 
 require './admin'
 require './user'

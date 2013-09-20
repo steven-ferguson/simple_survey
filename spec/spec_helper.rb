@@ -8,6 +8,7 @@ require 'answer'
 require 'user'
 require 'responder'
 require 'response'
+require 'selection'
 
 ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))["test"])
 
@@ -19,5 +20,6 @@ RSpec.configure do |config|
     User.all.each {|user| user.destroy}
     Responder.all.each {|responder| responder.destroy}
     Response.all.each {|response| response.destroy}
+    Selection.all.each {|selection| selection.destroy}
   end
 end

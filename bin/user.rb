@@ -38,11 +38,11 @@ def take_survey(user)
   responder = Responder.create( :user => user, :survey => survey )
   survey.questions.each do |question|
     show(question)
-    puts "\n  Enter the number of your response"
-    begin
-      answer = gets.chomp.to_i
-    end until answer > 0 && answer <= question.answers.length
-    responder.responses.create( :answer => question.answers[answer - 1])
+    if question.response_type == 'single'
+      single_answer(responder, question)
+    else 
+      multi_answer(responder, question)
+    end
   end
   puts `clear`
   puts "Thank you for taking the survey. Hit any button to return to the main menu."
@@ -56,3 +56,43 @@ def show(question)
     puts "#{index + 1}. #{answer.content}"
   end
 end
+
+def single_answer(responder, question)
+  puts "\n  Enter the number of your response"
+  begin
+    answer = gets.chomp.to_i
+  end until answer > 0 && answer <= question.answers.length
+  responder.responses.create( :answer => question.answers[answer - 1])
+end
+
+def multi_answer(responder, question)
+  puts "\n You can select multiple answers for this question. Enter each number indiviually:"
+  response = responder.responses.create
+  user_choice = nil
+  until user_choice == 'n'
+    selection = response.selections.create(:answer => question.answers[gets.to_i - 1])
+    puts "Do you want to select another choice? (y/n)"
+    user_choice = gets.chomp.downcase
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

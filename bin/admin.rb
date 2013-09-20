@@ -36,7 +36,14 @@ def create_question(survey)
   puts `clear`
   puts "What do you want the question to say?"
   content = gets.chomp
-  question = survey.questions.create(:content => content)
+  puts "Can the user select multiple answers for this question? (y/n)"
+  user_choice = gets.chomp.downcase
+  if user_choice == 'y'
+    response_type = 'multi'
+  else
+    response_type = 'single'
+  end
+  question = survey.questions.create(:content => content, :response_type => response_type)
   begin
     puts `clear`
     puts 'Do you want to add an answer to your question? (y/n)'
@@ -66,7 +73,7 @@ def view_survey_responses
   survey = Survey.all[user_choice - 1]
   puts "\n\n"
   survey.questions.each do |question|
-    puts "#{question.content} Responses: #{question.total_responses}\n\n"
+    puts "#{question.content} Responders: #{question.responses.uniq.length}\n\n"
     question.answers.each do |answer|
       puts "  #{answer.content} -- Responses: #{answer.responses.length} (#{answer.percent_of_total}%)"
     end

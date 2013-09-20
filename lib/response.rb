@@ -1,4 +1,6 @@
 class Response < ActiveRecord::Base
-  belongs_to :answer
+  has_many :selections
+  has_many :answers, :through => :selections
   belongs_to :responder
+
 end

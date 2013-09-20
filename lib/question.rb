@@ -4,11 +4,6 @@ class Question < ActiveRecord::Base
   has_many :responses, :through => :answers
 
   def total_responses
-    # responses = 0
-    # self.answers.each do |answer|
-    #   responses += answer.responses.length
-    # end
-    # responses
     responses.count
   end
 end
